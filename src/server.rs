@@ -1,4 +1,5 @@
 use crate::config::Config;
+use std::error::Error;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpListener;
 
@@ -11,7 +12,7 @@ impl Server {
         Server { config: config }
     }
 
-    pub async fn run(self) -> Result<(), Box<dyn std::error::Error>> {
+    pub async fn run(self) -> Result<(), Box<dyn Error>> {
         let listener = TcpListener::bind(format!("0.0.0.0:{}", self.config.port)).await?;
 
         loop {
