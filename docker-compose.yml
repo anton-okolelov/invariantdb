@@ -2,36 +2,42 @@ version: '3.7'
 
 services:
   invariantdb:
-    image: docker:13.2-alpine
+    build:
+      context: .
+      dockerfile: .docker/invariantdb.Dockerfile
     environment:
+      PORT: 6444
       PG_HOST: db
       PG_PORT: 5432
       PG_USER: inv
-      PG_PASS:
+      PG_PASS: dev
       PG_NAME: inv_db
-    env_file:
-      - .env
     volumes:
       - ./:/app/invariantdb:delegated
-      - ./.docker/entrypoints/dev.sh:/entrypoint.sh:ro
+      - ./.docker/entrypoint.sh:/entrypoint.sh:ro
     entrypoint: /entrypoint.sh
     tty: true
+    expose:
+      - "6444"
+    ports:
+      - "6444:6444"
     depends_on:
-      - db
-      - kafka
+      - pg
     working_dir: /app/invariantdb
     networks:
       - invariantdb
 
-  db:
-    image: postgres:13
+  pg:
+    build:
+      context: .
+      dockerfile: .docker/postgres.Dockerfile
     environment:
       - TERM=xterm
       - LC_COLLATE=ru_RU.UTF-8
       - LC_CTYPE=ru_RU.UTF-8
       - POSTGRES_DB=inv
       - POSTGRES_USER=inv_user
-      - POSTGRES_PASSWORD
+      - POSTGRES_PASSWORD=dev
       - POSTGRES_INITDB_ARGS="--locale=ru_RU.UTF-8"
       - SERVICE_NAME=pg
       - SERVICE_TAGS=internal,db

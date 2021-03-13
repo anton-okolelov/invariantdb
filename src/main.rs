@@ -1,11 +1,14 @@
 extern crate tokio;
 
-use tokio::net::TcpListener;
+use std::env;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
+use tokio::net::TcpListener;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let mut listener = TcpListener::bind("127.0.0.1:8080").await?;
+    let port = env::var("PORT").unwrap_or("6444".to_string());
+
+    let mut listener = TcpListener::bind(format!("0.0.0.0:{}", port)).await?;
 
     loop {
         let (mut socket, _) = listener.accept().await?;
