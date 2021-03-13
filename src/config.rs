@@ -25,11 +25,11 @@ impl Config {
         Ok(Config {
             port: port,
             pg: PgConfig {
-                host: env::var("DB_HOST")?,
-                port: env::var("DB_PORT")?.parse::<u16>()?,
-                user: env::var("DB_USER")?,
-                password: env::var("DB_PASS")?,
-                db_name: env::var("DB_NAME")?,
+                host: env::var("PG_HOST")?,
+                port: env::var("PG_PORT")?.parse::<u16>()?,
+                user: env::var("PG_USER")?,
+                password: env::var("PG_PASS")?,
+                db_name: env::var("PG_NAME")?,
             },
         })
     }
