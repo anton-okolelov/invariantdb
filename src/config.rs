@@ -1,6 +1,6 @@
 use std::env;
 
-const DEFAULT_PORT: u16= 6444;
+const DEFAULT_PORT: u16 = 6444;
 
 pub struct PgConfig {
     pub host: String,
@@ -19,8 +19,8 @@ impl Config {
     pub fn from_env() -> Result<Config, Box<dyn std::error::Error>> {
         let port = match env::var("PORT") {
             Ok(val) => val.parse::<u16>()?,
-            Err(_) => DEFAULT_PORT
-        } ;
+            Err(_) => DEFAULT_PORT,
+        };
 
         Ok(Config {
             port: port,
