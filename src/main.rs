@@ -1,14 +1,16 @@
+mod config;
+
 extern crate tokio;
 
-use std::env;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpListener;
+use crate::config::Config;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let port = env::var("PORT").unwrap_or("6444".to_string());
+    let config = Config::from_env()?;
 
-    let mut listener = TcpListener::bind(format!("0.0.0.0:{}", port)).await?;
+    let listener = TcpListener::bind(format!("0.0.0.0:{}", config.port)).await?;
 
     loop {
         let (mut socket, _) = listener.accept().await?;
