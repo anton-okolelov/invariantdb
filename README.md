@@ -1,10 +1,12 @@
 # InvariantDB
-
-Это база данных, расчитанная на удобную работу с бизнес-сущностями.
-# Для чего? 
+Warning - это недочерновик, не смотрите дальше и не запускайте)
 
 
-## Создание объектов
+Это СУБД, расчитанный на более высокоуровневую работу с данными, чем это позволяют классические реляционные SQL-базы.
+## Для чего? 
+
+
+### Простой SQL (postgres)
 ```sql
 CREATE TABLE authors (
     id bigserial primary key,
@@ -42,7 +44,7 @@ DELETE FROM authors WHERE id = 1;
 DELETE FROM books WHERE id = 1;
 ```
 
-Теперь тоже самое на invariant db:
+### Тоже самое на invariant db:
 
 ```
 DEFINE ENTITY Author  (
