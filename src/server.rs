@@ -2,6 +2,7 @@ use crate::config::Config;
 use std::error::Error;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpListener;
+use log::{info, error};
 
 pub struct Server {
     config: Config,
@@ -13,6 +14,7 @@ impl Server {
     }
 
     pub async fn run(self) -> Result<(), Box<dyn Error>> {
+        info!("Listening port {}", self.config.port);
         let listener = TcpListener::bind(format!("0.0.0.0:{}", self.config.port)).await?;
 
         loop {
@@ -28,14 +30,14 @@ impl Server {
                         Ok(n) if n == 0 => return,
                         Ok(n) => n,
                         Err(e) => {
-                            eprintln!("failed to read from socket; err = {:?}", e);
+                            error!("failed to read from socket; err = {:?}", e);
                             return;
                         }
                     };
 
                     // Write the data back
                     if let Err(e) = socket.write_all(&buf[0..n]).await {
-                        eprintln!("failed to write to socket; err = {:?}", e);
+                        error!("failed to write to socket; err = {:?}", e);
                         return;
                     }
                 }

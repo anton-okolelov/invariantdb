@@ -1,4 +1,5 @@
 use std::env;
+use std::error::Error;
 
 const DEFAULT_PORT: u16 = 6444;
 
@@ -16,7 +17,7 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn from_env() -> Result<Config, Box<dyn std::error::Error>> {
+    pub fn from_env() -> Result<Config, Box<dyn Error>> {
         let port = match env::var("PORT") {
             Ok(val) => val.parse::<u16>()?,
             Err(_) => DEFAULT_PORT,

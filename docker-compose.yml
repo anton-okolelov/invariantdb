@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: .docker/invariantdb.Dockerfile
     environment:
+      RUST_LOG: debug
       PORT: 6444
       PG_HOST: db
       PG_PORT: 5432
